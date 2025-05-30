@@ -1,214 +1,83 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Clientes</title>
+    <link rel="stylesheet" href="cadcliente.css">
+    <script src="cadcliente.js"></script>
+</head>
+<body>
+    <header>
+         <img class="logo" src="imagens/logoo.png">
+         <img class="logo2" src="imagens/ccmts.jfif">
+         <img class="logo3" src="imagens/parana.png">
+    </header>
+    <nav></nav>
+    <main>
+      <section id="cliente">                                                                                                                                                                                 
+         <h2>Cadastro do Cliente</h2> 
+         <form class="Cadastro" id="formCliente">
+               <label for="codigo">Código</label>
+               <input type="text" name="codigo" id="codigo" placeholder="Código" required>
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #acccdc;
-    color: #333;
-}
+               <label for="nome">Nome</label>
+               <input type="text" name="nome" id="nome" placeholder="Nome" required>
 
-header {
-    background-color: #f9f9f9;
-    color: #333;
-    padding: 0px;
-    align-items: center;
-    text-align: center;
-    position: relative;
-}
+               <label for="idade">Idade</label>
+               <input type="number" name="idade" id="idade" placeholder="Idade" min="0" required>
 
-header .logo h1 {
-    margin: 0;
-    padding: 10px;
-}
+               <label for="telefone">Telefone</label>
+               <input type="tel" name="telefone" id="telefone" placeholder="Telefone" required>
 
-.logo {
-    width: 300px;
-    height: auto;
-}
+               <label for="emergencia">nº de emergência</label>
+               <input type="tel" name="emergencia" id="emergencia" placeholder="nº de emergência" required>
 
-.logo2 {
-    width: 100px;
-    height: auto;
-    position: absolute;
-    left: 20px;
-    top: 20px;
-}
+               <label for="endereco">Endereço</label>
+               <input type="text" name="endereco" id="endereco" placeholder="Endereço" required>
 
-.logo3 {
-    width: 100px;
-    height: auto;
-    position: absolute;
-    right: 20px;
-    top: 20px;
-}
+               <label for="email">E-mail</label>
+               <input type="email" name="email" id="email" placeholder="E-mail" required>
 
-.logo4 {
-    width: 200px;
-    height: auto;
-}
+               <label for="cpf">CPF</label>
+               <input type="text" name="cpf" id="cpf" placeholder="CPF" required> 
+         </form>
+         <div class="container_botoes">
+            <button class="botao1" onclick="incluirCliente()">Incluir</button>
+            <button class="botao2" onclick="excluirCliente()">Excluir</button>
+            <button class="botao3" onclick="alterarCliente()">Alterar</button>
+            <button class="botao4" onclick="consultarClientes()">Consultar</button>
+            <button class="botao5" onclick="limparFormulario()">Limpar</button>
+         </div>
+      </section>
 
-section {
-    margin: 30px auto;
-    align-items: center;
-    text-align: center;
-    max-width: 800px;
-    padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+      <section id="lista-clientes" style="display: none;">
+         <h2>Clientes Cadastrados</h2>
+         <div id="tabela-clientes">
+             <table>
+                 <thead>
+                     <tr>
+                         <th>Código</th>
+                         <th>Nome</th>
+                         <th>Idade</th>
+                         <th>Telefone</th>
+                         <th>CPF</th>
+                         <th>Ações</th>
+                     </tr>
+                 </thead>
+                 <tbody id="corpo-tabela">
+                     <!-- Os clientes serão inseridos aqui via JavaScript -->
+                 </tbody>
+             </table>
+         </div>
+         <button class="botao5" onclick="voltarParaCadastro()">Voltar</button>
+      </section>
+    </main>
 
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    justify-content: left;
-    align-items: start;
-}
-
-form input {
-    min-width: 100%;
-    padding: 7px;
-    font-size: 16px;
-    border: 1px solid #0e2133;
-    border-radius: 5px;
-}
-
-footer {
-    text-align: center;
-    background-color: #0e2133;
-    color: #f9f9f9;
-    padding: 40px;
-    margin-top: 110px;
-}
-
-footer p {
-    font-size: 14px;
-}
-
-nav {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    padding: 10px;
-    background-color: #0e2133;
-}
-
-nav a {
-    margin: 0 15px;
-    color: #f9f9f9;
-    text-decoration: none;
-}
-
-.botao1, .botao2, .botao3, .botao4, .botao5 {
-    border-radius: 7px;
-    margin-top: 10px;
-    border: none;
-    width: 87px;
-    height: 25px;
-    color: #ffffff;
-    background-color: #0e2133;
-    cursor: pointer;
-}
-
-.container_botoes {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    margin-top: 20px;
-}
-
-/* Estilos para a tabela de clientes */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-}
-
-th {
-    background-color: #0e2133;
-    color: white;
-}
-
-tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-tr:hover {
-    background-color: #ddd;
-}
-
-.acoes button {
-    margin: 0 5px;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.editar {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.excluir {
-    background-color: #f44336;
-    color: white;
-}
-
-/* Media Queries para diferentes tamanhos de tela */
-
-/* Tablets e telas maiores */
-@media (min-width: 768px) {
-    .logo2, .logo3 {
-        display: block; /* Mostra os logos laterais */
-    }
-    
-    header {
-        padding: 1px 50px; /* Mais espaço nos lados */
-    }
-    
-    section {
-        margin: 30px auto;
-        padding: 30px;
-    }
-    
-    footer {
-        padding: 40px;
-    }
-    
-    nav a {
-        margin: 0 15px;
-    }
-}
-
-/* Telas grandes */
-@media (min-width: 1024px) {
-    .logo {
-        width: 250px;
-    }
-    
-    .logo4 {
-        width: 250px;
-    }
-    
-    form input {
-        padding: 10px;
-        font-size: 18px;
-    }
-    
-    .botao1, .botao2, .botao3, .botao4, .botao5 {
-        height: 30px;
-        min-width: 100px;
-        font-size: 16px;
-    }
-}
+    <footer>
+         <img class="logo4" src="imagens/gimc2.png">
+         <p>2025 - Todos os direitos reservados</p>
+    </footer>
+    <script src="cad.js"></script>
+</body>
+</html>
