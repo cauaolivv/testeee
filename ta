@@ -1,0 +1,27 @@
+ <button class="botao1" onclick="incluirCliente()">Incluir</button>
+            <button class="botao2" onclick="excluirCliente()">Excluir</button>
+            <button class="botao3" onclick="alterarCliente()">Alterar</button>
+            <button class="botao4" onclick="consultarClientes()">Consultar</button>
+            <button class="botao5" onclick="limparFormulario()">Limpar</button>
+
+<section id="lista-clientes" style="display: none;">
+         <h2>Clientes Cadastrados</h2>
+         <div id="tabela-clientes">
+             <table>
+                 <thead>
+                     <tr>
+                         <th>Código</th>
+                         <th>Nome</th>
+                         <th>Idade</th>
+                         <th>Telefone</th>
+                         <th>CPF</th>
+                         <th>Ações</th>
+                     </tr>
+                 </thead>
+                 <tbody id="corpo-tabela">
+                     <!-- Os clientes serão inseridos aqui via JavaScript -->
+                 </tbody>
+             </table>
+         </div>
+         <button class="botao5" onclick="voltarParaCadastro()">Voltar</button>
+      </section>
