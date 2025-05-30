@@ -1,196 +1,83 @@
-// Array para armazenar os clientes
-let clientes = [];
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Clientes</title>
+    <link rel="stylesheet" href="teste.css">
+    <script src="teste.js"></script>
+</head>
+<body>
+    <header>
+         <img class="logo" src="imagens/logoo.png">
+         <img class="logo2" src="imagens/ccmts.jfif">
+         <img class="logo3" src="imagens/parana.png">
+    </header>
+    <nav></nav>
+    <main>
+      <section id="cliente">                                                                                                                                                                                 
+         <h2>Cadastro do Cliente</h2> 
+         <form class="Cadastro" id="formCliente">
+               <label for="codigo">Código</label>
+               <input type="text" name="codigo" id="codigo" placeholder="Código" required>
 
-// Função para incluir um novo cliente
-function incluirCliente() {
-    const form = document.getElementById('formCliente');
-    if (!form.checkValidity()) {
-        alert("Por favor, preencha todos os campos corretamente.");
-        return;
-    }
+               <label for="nome">Nome</label>
+               <input type="text" name="nome" id="nome" placeholder="Nome" required>
 
-    const cliente = {
-        codigo: document.getElementById('codigo').value,
-        nome: document.getElementById('nome').value,
-        idade: document.getElementById('idade').value,
-        telefone: document.getElementById('telefone').value,
-        emergencia: document.getElementById('emergencia').value,
-        endereco: document.getElementById('endereco').value,
-        email: document.getElementById('email').value,
-        cpf: document.getElementById('cpf').value
-    };
+               <label for="idade">Idade</label>
+               <input type="number" name="idade" id="idade" placeholder="Idade" min="0" required>
 
-    // Verifica se o código já existe (para atualização)
-    const index = clientes.findIndex(c => c.codigo === cliente.codigo);
-    if (index === -1) {
-        clientes.push(cliente);
-        alert("Cliente cadastrado com sucesso!");
-    } else {
-        clientes[index] = cliente;
-        alert("Cliente atualizado com sucesso!");
-    }
+               <label for="telefone">Telefone</label>
+               <input type="tel" name="telefone" id="telefone" placeholder="Telefone" required>
 
-    limparFormulario();
-}
+               <label for="emergencia">nº de emergência</label>
+               <input type="tel" name="emergencia" id="emergencia" placeholder="nº de emergência" required>
 
-// Função para excluir um cliente
-function excluirCliente() {
-    const codigo = document.getElementById('codigo').value;
-    if (!codigo) {
-        alert("Por favor, informe o código do cliente a ser excluído.");
-        return;
-    }
+               <label for="endereco">Endereço</label>
+               <input type="text" name="endereco" id="endereco" placeholder="Endereço" required>
 
-    const index = clientes.findIndex(c => c.codigo === codigo);
-    if (index !== -1) {
-        if (confirm(`Tem certeza que deseja excluir o cliente ${clientes[index].nome}?`)) {
-            clientes.splice(index, 1);
-            alert("Cliente excluído com sucesso!");
-            limparFormulario();
-        }
-    } else {
-        alert("Cliente não encontrado.");
-    }
-}
+               <label for="email">E-mail</label>
+               <input type="email" name="email" id="email" placeholder="E-mail" required>
 
-// Função para alterar um cliente
-function alterarCliente() {
-    const codigo = document.getElementById('codigo').value;
-    if (!codigo) {
-        alert("Por favor, informe o código do cliente a ser alterado.");
-        return;
-    }
+               <label for="cpf">CPF</label>
+               <input type="text" name="cpf" id="cpf" placeholder="CPF" required> 
+         </form>
+         <div class="container_botoes">
+            <button class="botao1" onclick="incluirCliente()">Incluir</button>
+            <button class="botao2" onclick="excluirCliente()">Excluir</button>
+            <button class="botao3" onclick="alterarCliente()">Alterar</button>
+            <button class="botao4" onclick="consultarClientes()">Consultar</button>
+            <button class="botao5" onclick="limparFormulario()">Limpar</button>
+         </div>
+      </section>
 
-    const cliente = clientes.find(c => c.codigo === codigo);
-    if (cliente) {
-        document.getElementById('nome').value = cliente.nome;
-        document.getElementById('idade').value = cliente.idade;
-        document.getElementById('telefone').value = cliente.telefone;
-        document.getElementById('emergencia').value = cliente.emergencia;
-        document.getElementById('endereco').value = cliente.endereco;
-        document.getElementById('email').value = cliente.email;
-        document.getElementById('cpf').value = cliente.cpf;
-    } else {
-        alert("Cliente não encontrado.");
-    }
-}
+      <section id="lista-clientes" style="display: none;">
+         <h2>Clientes Cadastrados</h2>
+         <div id="tabela-clientes">
+             <table>
+                 <thead>
+                     <tr>
+                         <th>Código</th>
+                         <th>Nome</th>
+                         <th>Idade</th>
+                         <th>Telefone</th>
+                         <th>CPF</th>
+                         <th>Ações</th>
+                     </tr>
+                 </thead>
+                 <tbody id="corpo-tabela">
+                     <!-- Os clientes serão inseridos aqui via JavaScript -->
+                 </tbody>
+             </table>
+         </div>
+         <button class="botao5" onclick="voltarParaCadastro()">Voltar</button>
+      </section>
+    </main>
 
-// Função para consultar/visualizar a lista de clientes
-function consultarClientes() {
-    const sectionCadastro = document.getElementById('cliente');
-    const sectionLista = document.getElementById('lista-clientes');
-    
-    if (clientes.length === 0) {
-        alert("Nenhum cliente cadastrado ainda.");
-        return;
-    }
-
-    sectionCadastro.style.display = 'none';
-    sectionLista.style.display = 'block';
-
-    const tabela = document.getElementById('corpo-tabela');
-    tabela.innerHTML = '';
-
-    clientes.forEach(cliente => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${cliente.codigo}</td>
-            <td>${cliente.nome}</td>
-            <td>${cliente.idade}</td>
-            <td>${cliente.telefone}</td>
-            <td>${cliente.cpf}</td>
-            <td class="acoes">
-                <button class="editar" onclick="carregarParaEdicao('${cliente.codigo}')">Editar</button>
-                <button class="excluir" onclick="confirmarExclusao('${cliente.codigo}')">Excluir</button>
-            </td>
-        `;
-        tabela.appendChild(row);
-    });
-}
-
-// Função auxiliar para carregar cliente para edição
-function carregarParaEdicao(codigo) {
-    voltarParaCadastro();
-    const cliente = clientes.find(c => c.codigo === codigo);
-    if (cliente) {
-        document.getElementById('codigo').value = cliente.codigo;
-        document.getElementById('nome').value = cliente.nome;
-        document.getElementById('idade').value = cliente.idade;
-        document.getElementById('telefone').value = cliente.telefone;
-        document.getElementById('emergencia').value = cliente.emergencia;
-        document.getElementById('endereco').value = cliente.endereco;
-        document.getElementById('email').value = cliente.email;
-        document.getElementById('cpf').value = cliente.cpf;
-    }
-}
-
-// Função auxiliar para confirmar exclusão
-function confirmarExclusao(codigo) {
-    if (confirm("Tem certeza que deseja excluir este cliente?")) {
-        clientes = clientes.filter(c => c.codigo !== codigo);
-        consultarClientes(); // Atualiza a tabela
-    }
-}
-
-// Função para voltar para o formulário de cadastro
-function voltarParaCadastro() {
-    document.getElementById('cliente').style.display = 'block';
-    document.getElementById('lista-clientes').style.display = 'none';
-}
-
-// Função para limpar o formulário
-function limparFormulario() {
-    document.getElementById('formCliente').reset();
-}
-
-// Validação de CPF (opcional)
-function validarCPF(cpf) {
-    cpf = cpf.replace(/[^\d]+/g,'');
-    if(cpf == '') return false;
-    
-    // Elimina CPFs invalidos conhecidos
-    if (cpf.length != 11 || 
-        cpf == "00000000000" || 
-        cpf == "11111111111" || 
-        cpf == "22222222222" || 
-        cpf == "33333333333" || 
-        cpf == "44444444444" || 
-        cpf == "55555555555" || 
-        cpf == "66666666666" || 
-        cpf == "77777777777" || 
-        cpf == "88888888888" || 
-        cpf == "99999999999")
-        return false;
-        
-    // Valida 1o digito
-    let add = 0;
-    for (let i=0; i < 9; i ++)
-        add += parseInt(cpf.charAt(i)) * (10 - i);
-    let rev = 11 - (add % 11);
-    if (rev == 10 || rev == 11)
-        rev = 0;
-    if (rev != parseInt(cpf.charAt(9)))
-        return false;
-        
-    // Valida 2o digito
-    add = 0;
-    for (let i = 0; i < 10; i ++)
-        add += parseInt(cpf.charAt(i)) * (11 - i);
-    rev = 11 - (add % 11);
-    if (rev == 10 || rev == 11)
-        rev = 0;
-    if (rev != parseInt(cpf.charAt(10)))
-        return false;
-        
-    return true;
-}
-
-// Adiciona validação de CPF ao formulário
-document.getElementById('cpf').addEventListener('blur', function() {
-    if (!validarCPF(this.value)) {
-        alert("CPF inválido!");
-        this.value = '';
-        this.focus();
-    }
-});
-
+    <footer>
+         <img class="logo4" src="imagens/gimc2.png">
+         <p>2025 - Todos os direitos reservados</p>
+    </footer>
+    <script src="cad.js"></script>
+</body>
+</html>
